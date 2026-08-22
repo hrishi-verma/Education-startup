@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===========================================================================
+   Design tokens (see docs/frontend/design-system.md)
+   Semantic colors as "R G B" triplets so Tailwind can apply <alpha-value>.
+   Light is the :root default; dark applies via system preference and via an
+   explicit [data-theme] set by the theme toggle. All text pairs meet WCAG AA.
+   =========================================================================== */
+:root {
+  --bg: 248 250 252;         /* page            */
+  --surface: 255 255 255;    /* cards           */
+  --surface-2: 241 245 249;  /* insets / code   */
+  --line: 226 232 240;       /* borders         */
+  --fg: 15 23 42;            /* primary text    */
+  --muted: 71 85 105;        /* secondary text  (AA on surface) */
+  --faint: 100 116 139;      /* tertiary text   */
+  --brand: 79 70 229;        /* indigo-600      */
+  --brand-fg: 255 255 255;
+  --success: 5 150 105;
+  --warn: 180 83 9;
+  --danger: 225 29 72;
+  --accent: 124 58 237;      /* violet — review */
+  --info: 2 132 199;
+
+  --radius: 0.875rem;
+  --shadow: 0 1px 2px rgb(15 23 42 / 0.06), 0 8px 24px rgb(15 23 42 / 0.06);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: 8 11 18;
+    --surface: 17 21 33;
+    --surface-2: 26 31 46;
+    --line: 40 47 66;
+    --fg: 226 232 240;
+    --muted: 156 168 186;
+    --faint: 113 126 145;
+    --brand: 129 130 246;    /* lighter indigo for dark-bg contrast */
+    --brand-fg: 12 14 22;
+    --success: 52 211 153;
+    --warn: 251 191 36;
+    --danger: 251 113 133;
+    --accent: 167 139 250;
+    --info: 56 189 248;
+    --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px rgb(0 0 0 / 0.35);
+  }
+}
+
+/* Explicit dark override (toggle) — wins over system preference. */
+:root[data-theme="dark"] {
+  --bg: 8 11 18;
+  --surface: 17 21 33;
+  --surface-2: 26 31 46;
+  --line: 40 47 66;
+  --fg: 226 232 240;
+  --muted: 156 168 186;
+  --faint: 113 126 145;
+  --brand: 129 130 246;
+  --brand-fg: 12 14 22;
+  --success: 52 211 153;
+  --warn: 251 191 36;
+  --danger: 251 113 133;
+  --accent: 167 139 250;
+  --info: 56 189 248;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px rgb(0 0 0 / 0.35);
+}
+
+html {
+  color-scheme: light dark;
+}
+
+body {
+  background: rgb(var(--bg));
+  color: rgb(var(--fg));
+  font-feature-settings: "cv02", "cv03", "cv04", "ss01";
+}
+
+/* Signaling: a single, consistent focus ring across every interactive element */
+:where(a, button, input, [tabindex]):focus-visible {
+  outline: 2px solid rgb(var(--brand));
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+::selection {
+  background: rgb(var(--brand) / 0.25);
+}
+
+/* Coherence: quiet, unobtrusive scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--line)) transparent;
+}
+
+/* Accessibility (blueprint §35): honor reduced-motion everywhere */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
